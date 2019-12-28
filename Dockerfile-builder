@@ -1,0 +1,6 @@
+from node:8.16.1-alpine as builder
+run apk add git python
+workdir /home/node
+add package.json .
+run npm install --registry=https://registry.npm.taobao.org 
+

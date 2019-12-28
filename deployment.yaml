@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nodejs
+  labels:
+    app: nodejs
+spec:
+  revisionHistoryLimit: 5
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - name: app
+        image: registry.nfyxhan.com:5000/nfyxhan/node:dev
+        imagePullPolicy: "Always"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300"
+            memory: "256Mi"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nodejs
+  name: nodejs
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: nodejs
+  type: ClusterIP 
+

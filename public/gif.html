@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang=en>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ </head>
+
+ <div id="textDiv">
+    <textarea type="text"></textarea>
+</div>
+<div>
+    <button onclick="add()">添加</button>
+    <button onclick="generate()">生成</button>
+    <button onclick="reset()">重置</button>
+</div>
+<script type=text/javascript src="/static/js/gifshot.min.js"></script>
+<script type=text/javascript>
+
+
+function text2image(text){
+    var canvasElement = document.createElement('canvas') 
+    var ctx = canvasElement.getContext('2d')
+    //tCtx.canvas.width = tCtx.measureText(text).width;
+    ctx.fillStyle = "#fff"
+    var w = 300
+    var h = 200
+    ctx.fillRect(0,0,w,h)
+    ctx.font="30px Georgia";
+    ctx.fillStyle = "#000"
+    ctx.textAlign = "center" 
+    ctx.fillText(text, w/2, h/2);
+    //  tCtx.setFillColor('red');
+    ctx.shadowColor = "rgba(255,0,0,0,)"
+     
+    // var imageElem = document.createElement('ImageBitMap') 
+    // imageElem.src = tCtx.canvas.toDataURL();
+    // return canvasElement
+    return ctx.canvas.toDataURL();
+}
+
+
+
+function add() {
+    var div = document.getElementById("textDiv")
+    var span = document.createElement("br")
+    var textArea = document.createElement("textarea")
+    div.appendChild(span)
+    div.appendChild(textArea)
+}
+function init() {
+    reset()
+    var ss=["我爱工作","工作使我快乐","工作使我进步", "工作使我致富", 
+        "我只喜欢工作","优秀是一种习惯", "我徜徉在工作的海洋里", "吸吮着知识的语录", 
+        "同事喊我吃饭", "我充耳不闻", "老板喊我喝水", "我无动于衷"]
+    var div = document.getElementById("textDiv")
+    for (var i=0; i<ss.length; i++) {
+        var span = document.createElement("br")
+        var textArea = document.createElement("textarea")
+        textArea.value = ss[i]
+        div.appendChild(span)
+        div.appendChild(textArea)
+    }
+
+}
+init()
+function reset() {
+    var div = document.getElementById("textDiv")
+    div.innerHTML = ""
+}
+function generate(){
+    var all = document.getElementsByTagName("textarea")
+    var images = []
+    for (var i=0;i<all.length ; i++) {
+        var text = all[i].value
+        console.log(text)
+        var image = { 
+            src: text2image(text),
+            text: text,
+        }
+        images.push(image)
+    }
+
+    gifshot.createGIF({
+    'images': images,
+    'interval': 0.5
+    }, function(obj) {
+      if(!obj.error) {
+        var image = obj.image,
+        animatedImage = document.createElement('img');
+        animatedImage.src = image;
+        document.body.appendChild(animatedImage);
+      }
+    });
+}
+
+</script>
+ 
+</html>

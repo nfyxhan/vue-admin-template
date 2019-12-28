@@ -1,14 +1,18 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div style="height: 95%; width: 95%">
+      <img-clicker imagesrc="/static/avatar.png" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import ImgClicker from '@/components/Image/click'
 
 export default {
   name: 'Dashboard',
+  components: { ImgClicker },
   computed: {
     ...mapGetters([
       'name'

@@ -26,7 +26,7 @@ const users = {
 export default [
   // user login
   {
-    url: '/user/login',
+    url: '/login',
     type: 'post',
     response: config => {
       const { username } = config.body
@@ -54,7 +54,6 @@ export default [
     response: config => {
       const { token } = config.query
       const info = users[token]
-
       // mock error
       if (!info) {
         return {
@@ -62,10 +61,9 @@ export default [
           message: 'Login failed, unable to get user details.'
         }
       }
-
       return {
         code: 20000,
-        data: info
+        data: {}
       }
     }
   },
